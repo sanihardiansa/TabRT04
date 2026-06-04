@@ -1,0 +1,33 @@
+{
+  "name": "tabungan-rt04-frontend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint src --ext .js,.jsx"
+  },
+  "keywords": [
+    "tabungan",
+    "rt",
+    "react"
+  ],
+  "author": "",
+  "license": "MIT",
+  "description": "Frontend untuk Sistem Tabungan RT 04",
+  "dependencies": {
+    "axios": "^1.6.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.20.0",
+    "zustand": "^4.4.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-basic-ssl": "^2.3.0",
+    "@vitejs/plugin-react": "^4.2.0",
+    "eslint": "^8.54.0",
+    "eslint-plugin-react": "^7.33.2",
+    "vite": "^5.0.0"
+  }
+}

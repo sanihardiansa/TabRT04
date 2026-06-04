@@ -1,0 +1,141 @@
+/* ==========================================================
+   Tabungan RT 04 - Audit Logs Premium Styling
+   ========================================================== */
+
+.audit-logs-page-container {
+    animation: fadeIn var(--transition-normal);
+}
+
+.audit-filter-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.audit-logs-table code {
+    font-family: monospace;
+    font-size: 0.8125rem;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    color: var(--accent-indigo);
+}
+
+body.light-theme .audit-logs-table code {
+    background: rgba(0, 0, 0, 0.03);
+}
+
+.audit-sub-user {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.record-id-cell code {
+    color: var(--text-secondary);
+}
+
+/* Row expansions and details styling */
+.expanded-details-row td {
+    padding: 0 !important;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.expanded-details-panel {
+    margin: 1rem;
+    padding: 1.25rem;
+    background: rgba(255,255,255,0.01) !important;
+    border-radius: var(--radius-md) !important;
+    text-align: left;
+}
+
+body.light-theme .expanded-details-panel {
+    background: rgba(0,0,0,0.005) !important;
+}
+
+.expanded-agent-info {
+    font-size: 0.8125rem;
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+/* JSON Diff formatting */
+.json-diff-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+@media (max-width: 768px) {
+    .json-diff-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+.json-state-box {
+    padding: 1rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-color);
+}
+
+.json-state-box.before {
+    background: rgba(244, 63, 94, 0.02);
+    border-color: rgba(244, 63, 94, 0.15);
+}
+
+.json-state-box.after {
+    background: rgba(16, 185, 129, 0.02);
+    border-color: rgba(16, 185, 129, 0.15);
+}
+
+.json-state-box h5 {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.json-state-box.before h5 { color: #f87171; }
+.json-state-box.after h5 { color: #34d399; }
+
+.json-state-box pre {
+    font-family: monospace;
+    font-size: 0.75rem;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    max-height: 200px;
+    color: var(--text-secondary);
+}
+
+/* Pagination Footer styles */
+.table-pagination-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.pagination-info {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.pagination-buttons {
+    display: flex;
+    gap: 0.75rem;
+}
+
+@media (max-width: 576px) {
+    .table-pagination-footer {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+}

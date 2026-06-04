@@ -1,0 +1,33 @@
+/* ==========================================================
+   Tabungan RT 04 - Setoran Page Premium Styling
+   ========================================================== */
+
+.setoran-container {
+    animation: fadeIn var(--transition-normal);
+}
+
+.setoran-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+}
+
+.setoran-header h2 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .setoran-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+    
+    .setoran-header .btn {
+        width: 100%;
+    }
+}

@@ -1,0 +1,60 @@
+/* ==========================================================
+   Tabungan RT 04 - Laporan Page Premium Styling
+   ========================================================== */
+
+.laporan-page-container {
+    animation: fadeIn var(--transition-normal);
+}
+
+.report-filter-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    align-items: stretch;
+}
+
+.filter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+}
+
+.filter-grid .form-group {
+    margin-bottom: 0;
+}
+
+.filter-action-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    border-top: 1px solid var(--border-color);
+    padding-top: 1.25rem;
+    margin-top: 0.25rem;
+}
+
+/* Specific report summary grids */
+.report-summary-grid {
+    margin-bottom: 1.5rem;
+}
+
+/* mobile responsive layout for reports */
+@media (max-width: 768px) {
+    .filter-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .filter-action-buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .filter-action-buttons .btn {
+        width: 100%;
+    }
+    
+    .report-summary-grid {
+        grid-template-columns: 1fr;
+    }
+}

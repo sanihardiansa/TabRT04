@@ -1,0 +1,492 @@
+/* ==========================================================
+   Tabungan RT 04 - Core Premium & Responsive Design System
+   Vanilla CSS with Variable Tokens, Glassmorphism, & Print Styles
+   ========================================================== */
+
+/* 1. VARIABEL & DESIGN TOKENS */
+:root {
+    /* Font Family */
+    --font-primary: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    
+    /* Dark Theme Default Tokens (Curated harmonious HSL/Hex) */
+    --bg-primary: #0b0f19;
+    --bg-secondary: rgba(17, 24, 39, 0.65);
+    --bg-card: rgba(31, 41, 55, 0.45);
+    --border-color: rgba(255, 255, 255, 0.08);
+    --border-hover: rgba(255, 255, 255, 0.16);
+    
+    --text-primary: #f9fafb;
+    --text-secondary: #9ca3af;
+    --text-muted: #6b7280;
+    
+    /* Accents */
+    --accent-indigo: #6366f1;
+    --accent-indigo-glow: rgba(99, 102, 241, 0.15);
+    --accent-emerald: #10b981;
+    --accent-emerald-glow: rgba(16, 185, 129, 0.15);
+    --accent-rose: #f43f5e;
+    --accent-rose-glow: rgba(244, 63, 94, 0.15);
+    --accent-amber: #f59e0b;
+    --accent-amber-glow: rgba(245, 158, 11, 0.15);
+    
+    /* Glassmorphism settings */
+    --glass-bg: rgba(17, 24, 39, 0.55);
+    --glass-blur: blur(16px);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    
+    /* Transition speed */
+    --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Border Radius */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+}
+
+/* Light Theme Override */
+body.light-theme {
+    --bg-primary: #f8fafc;
+    --bg-secondary: rgba(241, 245, 249, 0.8);
+    --bg-card: rgba(255, 255, 255, 0.7);
+    --border-color: rgba(15, 23, 42, 0.08);
+    --border-hover: rgba(15, 23, 42, 0.15);
+    
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    
+    --accent-indigo: #4f46e5;
+    --accent-indigo-glow: rgba(79, 70, 229, 0.1);
+    --accent-emerald: #059669;
+    --accent-emerald-glow: rgba(5, 150, 105, 0.1);
+    --accent-rose: #e11d48;
+    --accent-rose-glow: rgba(225, 29, 72, 0.1);
+    --accent-amber: #d97706;
+    --accent-amber-glow: rgba(217, 119, 6, 0.1);
+    
+    --glass-bg: rgba(255, 255, 255, 0.75);
+    --glass-blur: blur(12px);
+    --glass-shadow: 0 8px 32px 0 rgba(15, 23, 42, 0.08);
+}
+
+/* 2. BASE STYLES & RESET */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent; /* optimal untuk sentuhan Android */
+}
+
+body {
+    font-family: var(--font-primary);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+    transition: background-color var(--transition-normal), color var(--transition-normal);
+    line-height: 1.5;
+}
+
+input, button, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    outline: none;
+}
+
+/* 3. LAYOUT & GRID */
+.app-container {
+    display: flex;
+    min-height: 100vh;
+    position: relative;
+}
+
+.main-content {
+    flex: 1;
+    padding: 2rem;
+    margin-left: 260px; /* Sidebar offset */
+    transition: margin-left var(--transition-normal), padding var(--transition-normal);
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        margin-left: 0; /* responsive collapse sidebar */
+        padding: 1.25rem;
+        padding-top: 5rem; /* Space for Mobile Header Navbar */
+    }
+}
+
+/* Glassmorphism Container */
+.glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--glass-shadow);
+    transition: border var(--transition-fast), transform var(--transition-fast);
+}
+
+.glass-panel:hover {
+    border-color: var(--border-hover);
+}
+
+/* 4. DYNAMIC CARDS */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--accent-indigo);
+}
+
+.stat-card.emerald::before { background: var(--accent-emerald); }
+.stat-card.rose::before { background: var(--accent-rose); }
+.stat-card.amber::before { background: var(--accent-amber); }
+
+.stat-info h3 {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+}
+
+.stat-info p {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    background: var(--accent-indigo-glow);
+    color: var(--accent-indigo);
+}
+
+.stat-card.emerald .stat-icon { background: var(--accent-emerald-glow); color: var(--accent-emerald); }
+.stat-card.rose .stat-icon { background: var(--accent-rose-glow); color: var(--accent-rose); }
+.stat-card.amber .stat-icon { background: var(--accent-amber-glow); color: var(--accent-amber); }
+
+/* 5. FORMS & INPUTS */
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    transition: border-color var(--transition-fast), background var(--transition-fast);
+}
+
+body.light-theme .form-control {
+    background: rgba(0, 0, 0, 0.02);
+}
+
+.form-control:focus {
+    border-color: var(--accent-indigo);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+body.light-theme .form-control:focus {
+    background: rgba(0, 0, 0, 0.04);
+}
+
+/* 6. BUTTONS */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    border: none;
+    cursor: pointer;
+    transition: transform var(--transition-fast), opacity var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.btn:active {
+    transform: scale(0.97);
+}
+
+.btn-primary {
+    background: var(--accent-indigo);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+}
+
+.btn-primary:hover {
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6);
+}
+
+.btn-emerald {
+    background: var(--accent-emerald);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
+}
+
+.btn-rose {
+    background: var(--accent-rose);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(244, 63, 94, 0.4);
+}
+
+.btn-secondary {
+    background: var(--border-color);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+    background: var(--border-hover);
+}
+
+.btn-sm {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8125rem;
+    border-radius: var(--radius-sm);
+}
+
+.text-emerald { color: var(--accent-emerald) !important; }
+.text-rose { color: var(--accent-rose) !important; }
+
+/* 7. TABLES */
+.table-container {
+    overflow-x: auto;
+    width: 100%;
+    border-radius: var(--radius-md);
+    margin-top: 1.5rem;
+}
+
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.9375rem;
+}
+
+.custom-table th {
+    background: rgba(255, 255, 255, 0.02);
+    padding: 1rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    border-bottom: 2px solid var(--border-color);
+}
+
+body.light-theme .custom-table th {
+    background: rgba(0, 0, 0, 0.01);
+}
+
+.custom-table td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-primary);
+    vertical-align: middle;
+}
+
+.custom-table tr:hover td {
+    background: rgba(255, 255, 255, 0.015);
+}
+
+body.light-theme .custom-table tr:hover td {
+    background: rgba(0, 0, 0, 0.008);
+}
+
+/* Badge tags */
+.badge {
+    display: inline-flex;
+    padding: 0.25rem 0.625rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 9999px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.badge-emerald { background: var(--accent-emerald-glow); color: var(--accent-emerald); }
+.badge-rose { background: var(--accent-rose-glow); color: var(--accent-rose); }
+.badge-indigo { background: var(--accent-indigo-glow); color: var(--accent-indigo); }
+.badge-amber { background: var(--accent-amber-glow); color: var(--accent-amber); }
+
+/* 8. MODAL WINDOWS */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 1rem;
+    animation: fadeIn var(--transition-fast);
+}
+
+.modal-content {
+    width: 100%;
+    max-width: 550px;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+    padding: 2rem;
+    animation: slideUp var(--transition-normal);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* 9. SCROLLBARS */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--border-hover);
+}
+
+/* 10. PRINT STYLING - EXTREMELY ROBUST FOR PDF / PRINTERS */
+@media print {
+    body {
+        background: #fff !important;
+        color: #000 !important;
+        font-size: 12pt !important;
+    }
+    
+    .app-container {
+        display: block !important;
+    }
+    
+    /* Sembunyikan navigasi, tombol interaktif, pencarian saat mencetak */
+    .sidebar,
+    .mobile-navbar,
+    .btn,
+    .search-filter-box,
+    .modal-overlay,
+    .no-print {
+        display: none !important;
+    }
+    
+    .main-content {
+        margin-left: 0 !important;
+        padding: 0 !important;
+    }
+    
+    .glass-panel {
+        background: none !important;
+        backdrop-filter: none !important;
+        box-shadow: none !important;
+        border: none !important;
+        padding: 0 !important;
+    }
+    
+    .custom-table {
+        border: 1px solid #000 !important;
+    }
+    
+    .custom-table th {
+        background: #f3f4f6 !important;
+        color: #000 !important;
+        border-bottom: 2px solid #000 !important;
+    }
+    
+    .custom-table td {
+        border-bottom: 1px solid #000 !important;
+        color: #000 !important;
+    }
+    
+    /* Header cetak yang formal */
+    .print-header {
+        display: block !important;
+        text-align: center;
+        margin-bottom: 2rem;
+        border-bottom: 3px double #000;
+        padding-bottom: 1rem;
+    }
+    
+    .print-signature {
+        display: flex !important;
+        justify-content: space-between;
+        margin-top: 4rem;
+        page-break-inside: avoid;
+    }
+    
+    .print-signature-box {
+        text-align: center;
+        width: 200px;
+    }
+}
+
+/* Formal elements hidden by default, visible only during print */
+.print-header {
+    display: none;
+}
+
+.print-signature {
+    display: none;
+}

@@ -1,0 +1,24 @@
+# Node dependencies
+node_modules/
+
+# Production builds
+dist/
+build/
+
+# Local environment variables and keys
+.env
+.env.local
+.env.development
+.env.production
+.env.staging
+.env.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# OS metadata
+.DS_Store
+Thumbs.db

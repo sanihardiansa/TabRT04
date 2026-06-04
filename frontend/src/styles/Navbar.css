@@ -1,0 +1,82 @@
+/* ==========================================================
+   Tabungan RT 04 - Top Navbar Premium Styling
+   ========================================================== */
+
+.mobile-navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 70px;
+    padding: 0 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 90;
+    border-radius: 0 !important; /* full-width top sticky header */
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    margin-bottom: 2rem;
+}
+
+.navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.hamburger-btn {
+    display: none; /* hidden on desktop sizes */
+    font-size: 1.5rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--text-primary);
+    padding: 0.25rem;
+}
+
+.navbar-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+/* Theme Switcher Button */
+.theme-toggle-btn {
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    border-radius: 9999px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background var(--transition-fast), border-color var(--transition-fast);
+}
+
+body.light-theme .theme-toggle-btn {
+    background: rgba(0, 0, 0, 0.03);
+}
+
+.theme-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--border-hover);
+}
+
+body.light-theme .theme-toggle-btn:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+/* Responsive Mobile Layout adjustments */
+@media (max-width: 768px) {
+    .mobile-navbar {
+        position: fixed; /* fix on mobile viewports */
+        width: 100%;
+        left: 0;
+        top: 0;
+        padding: 0 1.25rem;
+        margin-bottom: 0;
+    }
+    
+    .hamburger-btn {
+        display: block; /* show on mobile screens */
+    }
+}

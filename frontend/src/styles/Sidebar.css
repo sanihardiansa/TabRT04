@@ -1,0 +1,221 @@
+/* ==========================================================
+   Tabungan RT 04 - Sidebar Premium Styling
+   ========================================================== */
+
+.sidebar {
+    width: 260px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    border-radius: 0 !important; /* Sidebar menempel full tinggi kiri */
+    border-top: none !important;
+    border-bottom: none !important;
+    border-left: none !important;
+    padding: 1.5rem 1rem;
+    transition: transform var(--transition-normal);
+}
+
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 1.5rem;
+}
+
+.brand-logo {
+    font-size: 2rem;
+    filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.4));
+}
+
+.brand-title h2 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--text-primary);
+}
+
+.brand-title p {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+/* User Card */
+.sidebar-user {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.875rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    margin-bottom: 1.5rem;
+}
+
+body.light-theme .sidebar-user {
+    background: rgba(0, 0, 0, 0.015);
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-indigo), #c084fc);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.875rem;
+    box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
+}
+
+.user-info h4 {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.role-badge {
+    display: inline-block;
+    font-size: 0.6875rem;
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    font-weight: 500;
+    margin-top: 0.15rem;
+}
+
+.role-badge.admin {
+    background: rgba(99, 102, 241, 0.15);
+    color: #818cf8;
+}
+
+.role-badge.operator {
+    background: rgba(16, 185, 129, 0.15);
+    color: #34d399;
+}
+
+/* Navigation Menu */
+.sidebar-menu {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+}
+
+.menu-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 0.875rem 1rem;
+    border: none;
+    background: transparent;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    text-align: left;
+    color: rgba(255, 255, 255, 0.65); /* High contrast light text in dark mode */
+    text-decoration: none;
+    transition: background var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+}
+
+.menu-link * {
+    color: inherit;
+}
+
+body.light-theme .menu-link {
+    color: var(--text-secondary);
+}
+
+.menu-link:hover {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text-primary);
+    transform: translateX(3px);
+}
+
+body.light-theme .menu-link:hover {
+    background: rgba(0, 0, 0, 0.02);
+    color: var(--text-primary);
+}
+
+.menu-link.active {
+    background: var(--accent-indigo-glow);
+    border: 1px solid rgba(99, 102, 241, 0.25);
+    color: #a5b4fc;
+}
+
+.menu-link.active * {
+    color: inherit;
+}
+
+body.light-theme .menu-link.active {
+    background: var(--accent-indigo);
+    color: #fff;
+    border: none;
+}
+
+.menu-icon {
+    font-size: 1.25rem;
+}
+
+.menu-label {
+    font-size: 0.9375rem;
+    font-weight: 500;
+}
+
+/* Footer & Logout */
+.sidebar-footer {
+    border-top: 1px solid var(--border-color);
+    padding-top: 1rem;
+    margin-top: 1rem;
+}
+
+.logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 0.875rem 1rem;
+    border: none;
+    background: transparent;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    text-align: left;
+    color: var(--accent-rose);
+    font-weight: 600;
+    transition: background var(--transition-fast);
+}
+
+.logout-btn:hover {
+    background: var(--accent-rose-glow);
+}
+
+/* Responsive Mobile Sidebar drawer */
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+        box-shadow: none;
+    }
+    
+    .sidebar.open {
+        transform: translateX(0);
+        box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+    }
+    
+    .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        z-index: 99;
+    }
+}

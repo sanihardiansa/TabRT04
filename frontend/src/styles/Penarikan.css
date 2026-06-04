@@ -1,0 +1,33 @@
+/* ==========================================================
+   Tabungan RT 04 - Penarikan Page Premium Styling
+   ========================================================== */
+
+.penarikan-container {
+    animation: fadeIn var(--transition-normal);
+}
+
+.penarikan-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+}
+
+.penarikan-header h2 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .penarikan-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+    
+    .penarikan-header .btn {
+        width: 100%;
+    }
+}

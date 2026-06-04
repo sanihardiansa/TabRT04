@@ -1,0 +1,144 @@
+/* ==========================================================
+   Tabungan RT 04 - Login Screen Premium Styling
+   ========================================================== */
+
+.login-wrapper {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #050811;
+    overflow: hidden;
+    position: relative;
+    padding: 1.5rem;
+}
+
+/* Background glowing circles */
+.login-bg-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.glow-circle {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.15;
+}
+
+.circle-1 {
+    width: 400px;
+    height: 400px;
+    background: var(--accent-indigo);
+    top: -100px;
+    left: -100px;
+    animation: floatGlow 10s infinite alternate;
+}
+
+.circle-2 {
+    width: 500px;
+    height: 500px;
+    background: var(--accent-emerald);
+    bottom: -150px;
+    right: -150px;
+    animation: floatGlow 12s infinite alternate-reverse;
+}
+
+@keyframes floatGlow {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(50px, 50px); }
+}
+
+/* Login Card */
+.login-card {
+    width: 100%;
+    max-width: 450px;
+    padding: 3rem 2.5rem;
+    z-index: 2;
+    position: relative;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 2.25rem;
+}
+
+.login-icon {
+    font-size: 3.5rem;
+    display: inline-block;
+    margin-bottom: 0.75rem;
+    filter: drop-shadow(0 0 15px rgba(99, 102, 241, 0.4));
+}
+
+.login-header h1 {
+    font-size: 1.625rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    color: var(--text-primary);
+    margin-bottom: 0.35rem;
+}
+
+.login-header p {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.login-error-alert {
+    background: var(--accent-rose-glow);
+    border: 1px solid rgba(244, 63, 94, 0.2);
+    border-radius: var(--radius-md);
+    padding: 0.75rem 1rem;
+    color: #fca5a5;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 0.875rem;
+    margin-top: 0.5rem;
+}
+
+.login-footer {
+    text-align: center;
+    margin-top: 2.25rem;
+    border-top: 1px solid var(--border-color);
+    padding-top: 1.5rem;
+}
+
+.login-footer p {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.demo-credentials-info {
+    display: inline-block;
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+}
+
+body.light-theme .login-wrapper {
+    background-color: #f1f5f9;
+}
+
+body.light-theme .demo-credentials-info {
+    background: rgba(0, 0, 0, 0.02);
+}
