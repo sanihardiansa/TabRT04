@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Tabungan RT 04</string>
+    <string name="title_activity_main">Tabungan RT 04</string>
+    <string name="package_name">com.tabunganrt04.app</string>
+    <string name="custom_url_scheme">com.tabunganrt04.app</string>
+</resources>
