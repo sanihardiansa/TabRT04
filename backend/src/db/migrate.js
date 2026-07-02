@@ -8,17 +8,55 @@ const __dirname = path.dirname(__filename);
 
 const schemaSqlPath = path.join(__dirname, 'schema.sql');
 
+/**
+ * Split SQL into statements, respecting dollar-quoted strings ($$...$$)
+ */
+function splitStatements(sql) {
+  const statements = [];
+  let current = '';
+  let inDollarQuote = false;
+  const lines = sql.split('\n');
+
+  for (const line of lines) {
+    // Check for dollar quote boundaries
+    const dollarMatches = line.match(/\$\$/g);
+    if (dollarMatches) {
+      for (const _ of dollarMatches) {
+        inDollarQuote = !inDollarQuote;
+      }
+    }
+
+    current += line + '\n';
+
+    // Only split on semicolons when not inside a dollar-quoted block
+    if (!inDollarQuote && line.trim().endsWith(';')) {
+      const trimmed = current.trim();
+      if (trimmed && trimmed !== ';') {
+        statements.push(trimmed);
+      }
+      current = '';
+    }
+  }
+
+  // Handle any remaining content
+  const remaining = current.trim();
+  if (remaining && remaining !== ';') {
+    statements.push(remaining);
+  }
+
+  return statements;
+}
+
 async function runMigrations() {
   try {
     const schema = fs.readFileSync(schemaSqlPath, 'utf8');
     
     console.log('Running database migrations...');
     
-    // Split by statements and run each, ignoring "already exists" errors
-    const statements = schema.split(';').filter(s => s.trim());
+    const statements = splitStatements(schema);
     for (const statement of statements) {
       try {
-        await query(statement + ';');
+        await query(statement);
       } catch (err) {
         // Ignore "already exists" errors for idempotent migrations
         if (err.code === '42710' || err.code === '42P07' || err.code === '42P16') {

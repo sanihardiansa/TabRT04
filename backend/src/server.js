@@ -104,11 +104,13 @@ app.use(notFoundHandler);
 // Error handler (must be last)
 app.use(errorHandler);
 
-// Start server
-app.listen(port, '0.0.0.0', () => {
-  console.log(`✅ Server running on port ${port}`);
-  console.log(`📡 Environment: ${config.server.nodeEnv}`);
-  console.log(`🔒 CORS enabled for: ${allowedOrigins.join(', ')}`);
-});
+// Start server (only when not running on Vercel serverless)
+if (!process.env.VERCEL) {
+  app.listen(port, '0.0.0.0', () => {
+    console.log(`✅ Server running on port ${port}`);
+    console.log(`📡 Environment: ${config.server.nodeEnv}`);
+    console.log(`🔒 CORS enabled for: ${allowedOrigins.join(', ')}`);
+  });
+}
 
 export default app;
