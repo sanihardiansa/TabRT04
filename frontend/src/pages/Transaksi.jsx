@@ -16,6 +16,7 @@ const Transaksi = ({ initialTab = 'setoran' }) => {
     // Form inputs
     const [jumlahInput, setJumlahInput] = useState('');
     const [keterangan, setKeterangan] = useState('');
+    const [tanggalInput, setTanggalInput] = useState('');
     const [loading, setLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
     const [successMsg, setSuccessMsg] = useState('');
@@ -68,6 +69,7 @@ const Transaksi = ({ initialTab = 'setoran' }) => {
         setSearchQuery('');
         setJumlahInput('');
         setKeterangan('');
+        setTanggalInput('');
         setErrorMsg('');
         setSuccessMsg('');
     };
@@ -110,7 +112,8 @@ const Transaksi = ({ initialTab = 'setoran' }) => {
                 body: JSON.stringify({
                     anggota_id: selectedMember.id,
                     jumlah: amount,
-                    keterangan: keterangan.trim() || `${activeTab === 'setoran' ? 'Setoran' : 'Penarikan'} Tabungan`
+                    keterangan: keterangan.trim() || `${activeTab === 'setoran' ? 'Setoran' : 'Penarikan'} Tabungan`,
+                    tanggal: tanggalInput || undefined
                 })
             });
 
@@ -255,6 +258,22 @@ const Transaksi = ({ initialTab = 'setoran' }) => {
                             </div>
                         </div>
                     )}
+
+                    {/* Tanggal Transaksi (opsional, untuk input data lama) */}
+                    <div className="form-group">
+                        <label className="form-label">Tanggal Transaksi</label>
+                        <input
+                            type="date"
+                            className="form-control"
+                            value={tanggalInput}
+                            onChange={(e) => setTanggalInput(e.target.value)}
+                            disabled={!selectedMember}
+                            max={new Date().toISOString().split('T')[0]}
+                        />
+                        <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '0.25rem', display: 'block' }}>
+                            Kosongkan jika transaksi hari ini. Isi untuk mencatat data lama.
+                        </span>
+                    </div>
 
                     {/* Jumlah Setoran/Penarikan */}
                     <div className="form-group">

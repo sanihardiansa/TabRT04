@@ -314,11 +314,20 @@ router.delete('/anggota/:id', async (req, res) => {
 
 // POST /api/transaksi/setoran - Posting Setoran Tabungan Warga
 router.post('/transaksi/setoran', async (req, res) => {
-  const { anggota_id, jumlah, keterangan } = req.body;
+  const { anggota_id, jumlah, keterangan, tanggal } = req.body;
   if (!anggota_id || !jumlah || jumlah <= 0) {
     return res.status(400).json({
       success: false,
       message: 'ID Anggota dan Jumlah Setoran valid wajib diisi.'
+    });
+  }
+
+  // Gunakan tanggal custom jika disediakan, atau gunakan waktu sekarang
+  const transactionDate = tanggal ? new Date(tanggal) : new Date();
+  if (tanggal && isNaN(transactionDate.getTime())) {
+    return res.status(400).json({
+      success: false,
+      message: 'Format tanggal tidak valid.'
     });
   }
 
@@ -355,18 +364,18 @@ router.post('/transaksi/setoran', async (req, res) => {
     const desc = keterangan || 'Setoran Tabungan';
     const amountVal = parseFloat(jumlah);
 
-    // 1. Simpan ke tabel deposits
+    // 1. Simpan ke tabel deposits dengan tanggal custom
     await client.query(
-      `INSERT INTO deposits (id, member_id, amount, description, recorded_by)
-       VALUES ($1, $2, $3, $4, $5)`,
-      [depositId, anggota_id, amountVal, desc, req.user.id]
+      `INSERT INTO deposits (id, member_id, amount, deposit_date, description, recorded_by)
+       VALUES ($1, $2, $3, $4, $5, $6)`,
+      [depositId, anggota_id, amountVal, transactionDate, desc, req.user.id]
     );
 
-    // 2. Simpan ke tabel transactions (mutasi log)
+    // 2. Simpan ke tabel transactions (mutasi log) dengan tanggal custom
     await client.query(
-      `INSERT INTO transactions (id, member_id, type, amount, reference_id, description, created_by)
-       VALUES ($1, $2, 'deposit', $3, $4, $5, $6)`,
-      [transactionId, anggota_id, amountVal, depositId, desc, req.user.id]
+      `INSERT INTO transactions (id, member_id, type, amount, transaction_date, reference_id, description, created_by)
+       VALUES ($1, $2, 'deposit', $3, $4, $5, $6, $7)`,
+      [transactionId, anggota_id, amountVal, transactionDate, depositId, desc, req.user.id]
     );
 
     // 3. Update saldo members
@@ -383,7 +392,7 @@ router.post('/transaksi/setoran', async (req, res) => {
       jenis: 'setoran',
       jumlah: amountVal,
       keterangan: desc,
-      tanggal: new Date()
+      tanggal: transactionDate
     };
 
     // Tulis Audit Logs
@@ -416,11 +425,20 @@ router.post('/transaksi/setoran', async (req, res) => {
 
 // POST /api/transaksi/penarikan - Posting Penarikan Tabungan Warga (Langsung Disetujui Operator)
 router.post('/transaksi/penarikan', async (req, res) => {
-  const { anggota_id, jumlah, keterangan } = req.body;
+  const { anggota_id, jumlah, keterangan, tanggal } = req.body;
   if (!anggota_id || !jumlah || jumlah <= 0) {
     return res.status(400).json({
       success: false,
       message: 'ID Anggota dan Jumlah Penarikan valid wajib diisi.'
+    });
+  }
+
+  // Gunakan tanggal custom jika disediakan, atau gunakan waktu sekarang
+  const transactionDate = tanggal ? new Date(tanggal) : new Date();
+  if (tanggal && isNaN(transactionDate.getTime())) {
+    return res.status(400).json({
+      success: false,
+      message: 'Format tanggal tidak valid.'
     });
   }
 
@@ -466,18 +484,18 @@ router.post('/transaksi/penarikan', async (req, res) => {
     const transactionId = uuidv4();
     const desc = keterangan || 'Penarikan Tabungan';
 
-    // 1. Simpan ke tabel withdrawals (status langsung 'approved' karena diposting oleh petugas/operator)
+    // 1. Simpan ke tabel withdrawals dengan tanggal custom
     await client.query(
-      `INSERT INTO withdrawals (id, member_id, amount, reason, status, approved_by, approval_date, recorded_by)
-       VALUES ($1, $2, $3, $4, 'approved', $5, CURRENT_TIMESTAMP, $5)`,
-      [withdrawalId, anggota_id, amountVal, desc, req.user.id]
+      `INSERT INTO withdrawals (id, member_id, amount, withdrawal_date, reason, status, approved_by, approval_date, recorded_by)
+       VALUES ($1, $2, $3, $4, $5, 'approved', $6, $4, $6)`,
+      [withdrawalId, anggota_id, amountVal, transactionDate, desc, req.user.id]
     );
 
-    // 2. Simpan ke tabel transactions (mutasi log)
+    // 2. Simpan ke tabel transactions (mutasi log) dengan tanggal custom
     await client.query(
-      `INSERT INTO transactions (id, member_id, type, amount, reference_id, description, created_by)
-       VALUES ($1, $2, 'withdrawal', $3, $4, $5, $6)`,
-      [transactionId, anggota_id, amountVal, withdrawalId, desc, req.user.id]
+      `INSERT INTO transactions (id, member_id, type, amount, transaction_date, reference_id, description, created_by)
+       VALUES ($1, $2, 'withdrawal', $3, $4, $5, $6, $7)`,
+      [transactionId, anggota_id, amountVal, transactionDate, withdrawalId, desc, req.user.id]
     );
 
     // 3. Update saldo members
@@ -494,7 +512,7 @@ router.post('/transaksi/penarikan', async (req, res) => {
       jenis: 'penarikan',
       jumlah: amountVal,
       keterangan: desc,
-      tanggal: new Date()
+      tanggal: transactionDate
     };
 
     // Tulis Audit Logs
