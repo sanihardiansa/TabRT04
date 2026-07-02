@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import '../styles/Transaksi.css';
 
+const API_BASE = import.meta.env.VITE_API_URL?.replace('/api/v1', '') || '';
+
 const Transaksi = ({ initialTab = 'setoran' }) => {
     const { token } = useAuth();
     const [activeTab, setActiveTab] = useState(initialTab); // 'setoran' | 'penarikan'
@@ -28,7 +30,7 @@ const Transaksi = ({ initialTab = 'setoran' }) => {
     useEffect(() => {
         const fetchMembers = async () => {
             try {
-                const res = await fetch('/api/anggota', {
+                const res = await fetch(`${API_BASE}/api/anggota`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 const json = await res.json();
@@ -102,7 +104,7 @@ const Transaksi = ({ initialTab = 'setoran' }) => {
         setLoading(true);
 
         try {
-            const endpoint = activeTab === 'setoran' ? '/api/transaksi/setoran' : '/api/transaksi/penarikan';
+            const endpoint = activeTab === 'setoran' ? `${API_BASE}/api/transaksi/setoran` : `${API_BASE}/api/transaksi/penarikan`;
             const res = await fetch(endpoint, {
                 method: 'POST',
                 headers: {
