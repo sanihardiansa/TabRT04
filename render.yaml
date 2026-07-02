@@ -32,6 +32,6 @@ services:
       - key: JWT_EXPIRE
         value: 7d
       - key: CORS_ORIGIN
-        value: https://tabrt04.vercel.app
+        value: https://frontend-orcin-rho-30.vercel.app,https://frontend-rase135.vercel.app
       - key: LOG_LEVEL
         value: info
