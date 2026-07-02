@@ -347,8 +347,9 @@ const Transaksi = ({ initialTab = 'setoran' }) => {
                 <div className="modal-overlay receipt-modal-overlay no-print">
                     <div className="modal-content receipt-card glass-panel print-receipt-view">
                         <div className="receipt-brand-header">
-                            <h2>TABUNGAN WARGA RT 04 RW 02</h2>
-                            <p>Bukti Struk Transaksi Keuangan Resmi</p>
+                            <h2>TABUNGAN WARGA RT 04 RW 11</h2>
+                            <p>Kelurahan Jatihanda, Kecamatan Mandalajati</p>
+                            <p>Kota Bandung</p>
                             <span className="divider-line"></span>
                         </div>
 
@@ -415,48 +416,57 @@ const Transaksi = ({ initialTab = 'setoran' }) => {
             {receiptData && (
                 <div className="print-header print-receipt-layout">
                     <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-                        <h2 style={{ fontSize: '20px', fontWeight: 'bold' }}>STRUK BUKTI TRANSAKSI RESMI</h2>
-                        <h3 style={{ fontSize: '16px' }}>TABUNGAN WARGA RT 04 RW 02</h3>
-                        <p style={{ fontSize: '10px' }}>Kecamatan Kebon Jeruk, Jakarta Barat</p>
-                        <hr style={{ borderTop: '2px solid #000', marginTop: '10px' }} />
+                        <h2 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '4px' }}>BUKTI TRANSAKSI TABUNGAN WARGA</h2>
+                        <h3 style={{ fontSize: '15px', fontWeight: 'bold', marginBottom: '4px' }}>RT 04 RW 11 Kelurahan Jatihanda</h3>
+                        <p style={{ fontSize: '11px', margin: '0' }}>Kecamatan Mandalajati, Kota Bandung</p>
+                        <hr style={{ borderTop: '2px solid #000', marginTop: '12px' }} />
                     </div>
 
-                    <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '30px', fontSize: '12pt' }}>
+                    <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '24px', fontSize: '11pt' }}>
                         <tbody>
                             <tr>
-                                <td style={{ padding: '8px 0', width: '200px' }}>No. Referensi Struk</td>
-                                <td style={{ padding: '8px 0' }}>: <strong>#{receiptData.no_struk}</strong></td>
+                                <td style={{ padding: '6px 0', width: '180px', verticalAlign: 'top' }}>No. Struk</td>
+                                <td style={{ padding: '6px 0' }}>: <strong>#{receiptData.no_struk}</strong></td>
                             </tr>
                             <tr>
-                                <td style={{ padding: '8px 0' }}>Tanggal Cetak</td>
-                                <td style={{ padding: '8px 0' }}>: {new Date(receiptData.tanggal).toLocaleString('id-ID')}</td>
+                                <td style={{ padding: '6px 0', verticalAlign: 'top' }}>Tanggal Transaksi</td>
+                                <td style={{ padding: '6px 0' }}>: {new Date(receiptData.tanggal).toLocaleString('id-ID', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</td>
                             </tr>
                             <tr>
-                                <td style={{ padding: '8px 0' }}>No. Anggota / Nama</td>
-                                <td style={{ padding: '8px 0' }}>: <strong>{receiptData.no_anggota} - {receiptData.nama_anggota}</strong></td>
+                                <td style={{ padding: '6px 0', verticalAlign: 'top' }}>No. Anggota</td>
+                                <td style={{ padding: '6px 0' }}>: <strong>{receiptData.no_anggota}</strong></td>
                             </tr>
                             <tr>
-                                <td style={{ padding: '8px 0' }}>Jenis Transaksi</td>
-                                <td style={{ padding: '8px 0' }}>: <strong>{receiptData.jenis === 'setoran' ? 'SETORAN TABUNGAN' : 'PENARIKAN TABUNGAN'}</strong></td>
+                                <td style={{ padding: '6px 0', verticalAlign: 'top' }}>Nama</td>
+                                <td style={{ padding: '6px 0' }}>: <strong>{receiptData.nama_anggota}</strong></td>
                             </tr>
                             <tr>
-                                <td style={{ padding: '8px 0' }}>Keterangan Catatan</td>
-                                <td style={{ padding: '8px 0' }}>: {receiptData.keterangan}</td>
+                                <td style={{ padding: '6px 0', verticalAlign: 'top' }}>Jenis Transaksi</td>
+                                <td style={{ padding: '6px 0' }}>: <strong>{receiptData.jenis === 'setoran' ? 'SETORAN' : 'PENARIKAN'}</strong></td>
                             </tr>
                             <tr>
-                                <td style={{ padding: '15px 0', fontSize: '14pt', borderTop: '1px dashed #000' }}><strong>NOMINAL TRANSAKSI</strong></td>
-                                <td style={{ padding: '15px 0', fontSize: '14pt', borderTop: '1px dashed #000' }}>: <strong>{formatCurrency(receiptData.jumlah)}</strong></td>
+                                <td style={{ padding: '6px 0', verticalAlign: 'top' }}>Keterangan</td>
+                                <td style={{ padding: '6px 0' }}>: {receiptData.keterangan}</td>
                             </tr>
-                            <tr>
-                                <td style={{ padding: '10px 0', fontSize: '14pt', borderBottom: '1px dashed #000' }}><strong>SALDO AKHIR TABUNGAN</strong></td>
-                                <td style={{ padding: '10px 0', fontSize: '14pt', borderBottom: '1px dashed #000' }}>: <strong>{formatCurrency(receiptData.saldo_baru)}</strong></td>
+                        </tbody>
+                    </table>
+
+                    <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '28px', fontSize: '12pt' }}>
+                        <tbody>
+                            <tr style={{ borderTop: '1px dashed #000' }}>
+                                <td style={{ padding: '12px 0', width: '180px' }}><strong>NOMINAL</strong></td>
+                                <td style={{ padding: '12px 0', textAlign: 'right', fontSize: '14pt' }}><strong>{formatCurrency(receiptData.jumlah)}</strong></td>
+                            </tr>
+                            <tr style={{ borderTop: '1px dashed #000', borderBottom: '1px dashed #000' }}>
+                                <td style={{ padding: '12px 0' }}><strong>SALDO AKHIR</strong></td>
+                                <td style={{ padding: '12px 0', textAlign: 'right', fontSize: '14pt' }}><strong>{formatCurrency(receiptData.saldo_baru)}</strong></td>
                             </tr>
                         </tbody>
                     </table>
 
                     <div className="print-signature">
                         <div className="print-signature-box">
-                            <p>Petugas Operator RT 04,</p>
+                            <p>Petugas RT 04 RW 11,</p>
                             <br /><br /><br />
                             <p style={{ borderBottom: '1px solid #000', display: 'inline-block', width: '150px' }}></p>
                             <p style={{ fontSize: '10px' }}>Tanda Tangan & Nama Terang</p>
