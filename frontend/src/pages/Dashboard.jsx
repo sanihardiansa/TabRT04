@@ -3,6 +3,8 @@ import { useAuth } from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Dashboard.css';
 
+const API_BASE = import.meta.env.VITE_API_URL?.replace('/api/v1', '') || '';
+
 const Dashboard = () => {
     const { token } = useAuth();
     const navigate = useNavigate();
@@ -14,7 +16,7 @@ const Dashboard = () => {
     useEffect(() => {
         const fetchDashboard = async () => {
             try {
-                const res = await fetch('/api/laporan/dashboard', {
+                const res = await fetch(`${API_BASE}/api/laporan/dashboard`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 const json = await res.json();

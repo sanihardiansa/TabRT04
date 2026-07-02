@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import '../styles/Anggota.css';
 
+const API_BASE = import.meta.env.VITE_API_URL?.replace('/api/v1', '') || '';
+
 const Anggota = () => {
     const { token, user } = useAuth();
     const [anggota, setAnggota] = useState([]);
@@ -22,7 +24,7 @@ const Anggota = () => {
     const fetchAnggota = async () => {
         setLoading(true);
         try {
-            const url = search ? `/api/anggota?search=${encodeURIComponent(search)}` : '/api/anggota';
+            const url = search ? `${API_BASE}/api/anggota?search=${encodeURIComponent(search)}` : `${API_BASE}/api/anggota`;
             const res = await fetch(url, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -75,7 +77,7 @@ const Anggota = () => {
 
         try {
             const method = editMode ? 'PUT' : 'POST';
-            const endpoint = editMode ? `/api/anggota/${selectedId}` : '/api/anggota';
+            const endpoint = editMode ? `${API_BASE}/api/anggota/${selectedId}` : `${API_BASE}/api/anggota`;
             
             const res = await fetch(endpoint, {
                 method,
@@ -115,7 +117,7 @@ const Anggota = () => {
         }
 
         try {
-            const res = await fetch(`/api/anggota/${id}`, {
+            const res = await fetch(`${API_BASE}/api/anggota/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });

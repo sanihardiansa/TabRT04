@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import '../styles/AuditLogs.css';
 
+const API_BASE = import.meta.env.VITE_API_URL?.replace('/api/v1', '') || '';
+
 const AuditLogs = () => {
     const { token } = useAuth();
     
@@ -22,7 +24,7 @@ const AuditLogs = () => {
     const fetchAuditLogs = async () => {
         setLoading(true);
         try {
-            let url = `/api/audit?limit=${limit}&offset=${offset}`;
+            let url = `${API_BASE}/api/audit?limit=${limit}&offset=${offset}`;
             if (actionFilter) url += `&action=${actionFilter}`;
             if (tableFilter) url += `&table_name=${tableFilter}`;
 

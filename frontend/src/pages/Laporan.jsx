@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import '../styles/Laporan.css';
 
+const API_BASE = import.meta.env.VITE_API_URL?.replace('/api/v1', '') || '';
+
 const Laporan = () => {
     const { token } = useAuth();
     
@@ -21,7 +23,7 @@ const Laporan = () => {
     useEffect(() => {
         const fetchMembersList = async () => {
             try {
-                const res = await fetch('/api/anggota', {
+                const res = await fetch(`${API_BASE}/api/anggota`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 const json = await res.json();
@@ -38,7 +40,7 @@ const Laporan = () => {
     const fetchReportData = async () => {
         setLoading(true);
         try {
-            let url = '/api/laporan/transaksi?';
+            let url = `${API_BASE}/api/laporan/transaksi?`;
             const params = [];
             
             if (startDate) params.push(`start_date=${startDate}`);
