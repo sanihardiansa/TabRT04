@@ -13,7 +13,22 @@ async function runMigrations() {
     const schema = fs.readFileSync(schemaSqlPath, 'utf8');
     
     console.log('Running database migrations...');
-    await query(schema);
+    
+    // Split by statements and run each, ignoring "already exists" errors
+    const statements = schema.split(';').filter(s => s.trim());
+    for (const statement of statements) {
+      try {
+        await query(statement + ';');
+      } catch (err) {
+        // Ignore "already exists" errors for idempotent migrations
+        if (err.code === '42710' || err.code === '42P07' || err.code === '42P16') {
+          console.log(`⏭️  Skipped (already exists): ${statement.trim().slice(0, 50)}...`);
+        } else {
+          throw err;
+        }
+      }
+    }
+    
     console.log('✅ Database migrations completed successfully!');
     process.exit(0);
   } catch (error) {

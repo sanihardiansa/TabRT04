@@ -1,16 +1,14 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import basicSsl from '@vitejs/plugin-basic-ssl';
 
-export default defineConfig({
-  plugins: [react(), basicSsl()],
+export default defineConfig(({ mode }) => ({
+  plugins: [react()],
   server: {
     port: 5173,
     host: true,
-    https: true,
     proxy: {
       '/api': {
-        target: 'http://localhost:5001',
+        target: 'http://localhost:5000',
         changeOrigin: true,
         rewrite: (path) => path
       }
@@ -19,5 +17,9 @@ export default defineConfig({
   build: {
     target: 'esnext',
     minify: 'esbuild',
+    outDir: 'dist',
+  },
+  define: {
+    // Make env available
   }
-});
+}));

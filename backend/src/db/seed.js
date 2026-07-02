@@ -9,6 +9,13 @@ const memberPassword = await bcrypt.hash('Member@123', 10);
 try {
   console.log('Seeding database...');
 
+  // Check if seed data already exists
+  const existingAdmin = await query(`SELECT id FROM users WHERE email = $1`, ['admin@rt04.local']);
+  if (existingAdmin.rows.length > 0) {
+    console.log('⏭️  Seed data already exists, skipping...');
+    process.exit(0);
+  }
+
   // Create Admin User
   const adminId = uuidv4();
   await query(

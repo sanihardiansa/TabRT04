@@ -23,18 +23,37 @@ dotenv.config();
 const app = express();
 const port = config.server.port;
 
+// Trust proxy (needed for Render, Railway, etc.)
+app.set('trust proxy', 1);
+
 // Security Middleware
-app.use(helmet());
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: "cross-origin" },
+}));
+
+// CORS - allow frontend domains
+const allowedOrigins = config.api.corsOrigin;
 app.use(cors({
-  origin: config.api.corsOrigin,
+  origin: (origin, callback) => {
+    // Allow requests with no origin (mobile apps, curl, health checks)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin) || allowedOrigins.includes('*')) {
+      return callback(null, true);
+    }
+    callback(new Error('Not allowed by CORS'));
+  },
   credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
 // Rate limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
+  max: 200, // limit each IP to 200 requests per windowMs
   message: 'Too many requests from this IP, please try again later.',
+  standardHeaders: true,
+  legacyHeaders: false,
 });
 
 app.use(limiter);
@@ -49,9 +68,23 @@ app.use(express.urlencoded({ limit: '10mb', extended: true }));
 // Audit logging middleware
 app.use(auditMiddleware);
 
-// Health check
+// Health check (important for Render)
 app.get('/health', (req, res) => {
-  res.json({ status: 'ok', message: 'Server is running' });
+  res.json({ 
+    status: 'ok', 
+    message: 'TabRT04 API is running',
+    timestamp: new Date().toISOString(),
+    environment: config.server.nodeEnv,
+  });
+});
+
+// Root endpoint
+app.get('/', (req, res) => {
+  res.json({
+    name: 'Tabungan RT 04 API',
+    version: '1.0.0',
+    docs: '/health',
+  });
 });
 
 // API v1 Routes
@@ -72,10 +105,10 @@ app.use(notFoundHandler);
 app.use(errorHandler);
 
 // Start server
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
   console.log(`✅ Server running on port ${port}`);
   console.log(`📡 Environment: ${config.server.nodeEnv}`);
-  console.log(`🔒 CORS enabled for: ${config.api.corsOrigin.join(', ')}`);
+  console.log(`🔒 CORS enabled for: ${allowedOrigins.join(', ')}`);
 });
 
 export default app;
