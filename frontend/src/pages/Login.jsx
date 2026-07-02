@@ -58,7 +58,7 @@ export default function Login() {
               type="text"
               id="username"
               className="form-control"
-              placeholder="Contoh: admin@rt04.local..."
+              placeholder="Masukkan email..."
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               disabled={submitting}
@@ -115,10 +115,6 @@ export default function Login() {
 
         <div className="login-footer">
           <p>Lingkungan RT 04 RW 02 - Aman, Transparan & Akuntabel</p>
-          <div style={{ marginTop: '0.5rem', fontSize: '0.75rem', opacity: 0.8 }}>
-            <span style={{ display: 'block' }}>Demo Admin: admin@rt04.local / Admin@123</span>
-            <span style={{ display: 'block' }}>Demo Bendahara: treasurer@rt04.local / Treasurer@123</span>
-          </div>
         </div>
       </div>
     </div>
