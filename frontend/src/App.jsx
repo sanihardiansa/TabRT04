@@ -14,6 +14,7 @@ import Penarikan from './pages/Penarikan';
 import Laporan from './pages/Laporan';
 import AuditLogs from './pages/AuditLogs';
 import Transaksi from './pages/Transaksi';
+import GantiPassword from './pages/GantiPassword';
 
 import './styles/App.css';
 
@@ -43,6 +44,7 @@ function App() {
                         <Route path="/transaksi/penarikan" element={<Transaksi initialTab="penarikan" />} />
                         <Route path="/laporan" element={<Laporan />} />
                         <Route path="/audit" element={<AuditLogs />} />
+                        <Route path="/ganti-password" element={<GantiPassword />} />
                         <Route path="*" element={<Navigate to="/" />} />
                       </Routes>
                     </main>

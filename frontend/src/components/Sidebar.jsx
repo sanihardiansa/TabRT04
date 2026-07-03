@@ -14,6 +14,7 @@ export default function Sidebar() {
     { label: 'Penarikan Tabungan', path: '/penarikan', icon: '📤' },
     { label: 'Laporan Mutasi', path: '/laporan', icon: '📋' },
     { label: 'Audit Log Keamanan', path: '/audit', icon: '🔍' },
+    { label: 'Ganti Password', path: '/ganti-password', icon: '🔐' },
   ];
 
   return (

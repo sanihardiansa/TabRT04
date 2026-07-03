@@ -793,4 +793,80 @@ router.get('/audit', async (req, res) => {
   }
 });
 
+// ==========================================================
+// 5. GANTI PASSWORD
+// ==========================================================
+
+// POST /api/ganti-password - Ganti password user yang sedang login
+router.post('/ganti-password', async (req, res) => {
+  const { password_lama, password_baru, konfirmasi_password } = req.body;
+
+  // Validasi input
+  if (!password_lama || !password_baru || !konfirmasi_password) {
+    return res.status(400).json({
+      success: false,
+      message: 'Password lama, password baru, dan konfirmasi password wajib diisi.'
+    });
+  }
+
+  if (password_baru.length < 6) {
+    return res.status(400).json({
+      success: false,
+      message: 'Password baru minimal 6 karakter.'
+    });
+  }
+
+  if (password_baru !== konfirmasi_password) {
+    return res.status(400).json({
+      success: false,
+      message: 'Password baru dan konfirmasi password tidak sama.'
+    });
+  }
+
+  try {
+    // Ambil password hash user saat ini
+    const userRes = await query('SELECT id, password_hash, name FROM users WHERE id = $1', [req.user.id]);
+    if (userRes.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'User tidak ditemukan.'
+      });
+    }
+
+    const user = userRes.rows[0];
+
+    // Verifikasi password lama
+    const isMatch = await bcrypt.compare(password_lama, user.password_hash);
+    if (!isMatch) {
+      return res.status(400).json({
+        success: false,
+        message: 'Password lama tidak sesuai.'
+      });
+    }
+
+    // Hash password baru
+    const newHash = await bcrypt.hash(password_baru, 10);
+
+    // Update password di database
+    await query(
+      'UPDATE users SET password_hash = $1, updated_at = CURRENT_TIMESTAMP WHERE id = $2',
+      [newHash, req.user.id]
+    );
+
+    // Tulis Audit Log
+    await auditLog('UPDATE', 'users', req.user.id, req.user.id, { action: 'CHANGE_PASSWORD' }, req);
+
+    return res.status(200).json({
+      success: true,
+      message: 'Password berhasil diubah.'
+    });
+  } catch (err) {
+    console.error('Error saat mengganti password:', err.message);
+    return res.status(500).json({
+      success: false,
+      message: 'Gagal mengganti password. Silakan coba lagi.'
+    });
+  }
+});
+
 export default router;
